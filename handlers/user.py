@@ -19,6 +19,27 @@ class UserHandler(BaseHTTPRequestHandler):
     def do_DELETE(self):
         self.handleDeleteUser()
 
+    def do_PATCH(self):
+        response = {"status": "Method Not Allowed", "code": 405}
+        self.send_response(405)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(response).encode("utf-8"))
+
+    def do_HEAD(self):
+        response = {"status": "Method Not Allowed", "code": 405}
+        self.send_response(405)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(response).encode("utf-8"))
+
+    def do_OPTIONS(self):
+        response = {"status": "Method Not Allowed", "code": 405}
+        self.send_response(405)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(response).encode("utf-8"))
+
     def handleReadUsers(self):
         parsed_url = urllib.parse.urlparse(self.path)
         if re.match(r"^/users(/.*)?$", parsed_url.path):
