@@ -50,6 +50,14 @@ class UserHandler(BaseHTTPRequestHandler):
             data = urllib.parse.parse_qs(post_data.decode("utf-8"))
             name = data.get("name", [None])[0]
 
+            if not name:
+                response = {"status": "Bad Request", "code": 400, "errors": "Missing 'name' parameter"}
+                self.send_response(400)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(response).encode("utf-8"))
+                return
+
             db_path = os.path.join(os.path.dirname(__file__), '../rest_api_python.db')
             conn = sqlite3.connect(os.path.abspath(db_path))
             c = conn.cursor()
@@ -79,6 +87,14 @@ class UserHandler(BaseHTTPRequestHandler):
             name = data.get("name", [None])[0]
             id = data.get("id", [None])[0]
 
+            if not name or not id:
+                response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' or 'name' parameter"}
+                self.send_response(400)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(response).encode("utf-8"))
+                return
+
             db_path = os.path.join(os.path.dirname(__file__), '../rest_api_python.db')
             conn = sqlite3.connect(os.path.abspath(db_path))
             c = conn.cursor()
@@ -106,6 +122,14 @@ class UserHandler(BaseHTTPRequestHandler):
             post_data = self.rfile.read(content_length)
             data = urllib.parse.parse_qs(post_data.decode("utf-8"))
             id = data.get("id", [None])[0]
+
+            if not id:
+                response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' parameter"}
+                self.send_response(400)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(response).encode("utf-8"))
+                return
 
             db_path = os.path.join(os.path.dirname(__file__), '../rest_api_python.db')
             conn = sqlite3.connect(os.path.abspath(db_path))
