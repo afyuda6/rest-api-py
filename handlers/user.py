@@ -43,7 +43,7 @@ class UserHandler(BaseHTTPRequestHandler):
     def handleReadUsers(self):
         parsed_url = urllib.parse.urlparse(self.path)
         if re.match(r"^/users(/.*)?$", parsed_url.path):
-            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_python.db')
+            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_py.db')
             conn = sqlite3.connect(os.path.abspath(db_path))
             c = conn.cursor()
             c.execute("SELECT id, name FROM users")
@@ -79,7 +79,7 @@ class UserHandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode("utf-8"))
                 return
 
-            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_python.db')
+            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_py.db')
             conn = sqlite3.connect(os.path.abspath(db_path))
             c = conn.cursor()
             c.execute("INSERT INTO users (name) VALUES (?)", (name,))
@@ -116,7 +116,7 @@ class UserHandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode("utf-8"))
                 return
 
-            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_python.db')
+            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_py.db')
             conn = sqlite3.connect(os.path.abspath(db_path))
             c = conn.cursor()
             c.execute("UPDATE users SET name = ? WHERE id = ?", (name, id,))
@@ -152,7 +152,7 @@ class UserHandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode("utf-8"))
                 return
 
-            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_python.db')
+            db_path = os.path.join(os.path.dirname(__file__), '../rest_api_py.db')
             conn = sqlite3.connect(os.path.abspath(db_path))
             c = conn.cursor()
             c.execute("DELETE FROM users WHERE id = ?", (id,))
