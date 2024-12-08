@@ -1,6 +1,5 @@
 import json
 import os
-import re
 import sqlite3
 import urllib.parse
 from http.server import BaseHTTPRequestHandler
@@ -98,7 +97,7 @@ class UserHandler(BaseHTTPRequestHandler):
         data = urllib.parse.parse_qs(post_data.decode("utf-8"))
         name = data.get("name", [None])[0]
 
-        if name is None:
+        if name.strip() == "":
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'name' parameter"}
             self.send_response(400)
             self.send_header("Content-type", "application/json")
@@ -144,7 +143,7 @@ class UserHandler(BaseHTTPRequestHandler):
         name = data.get("name", [None])[0]
         id = data.get("id", [None])[0]
 
-        if name is None or id is None:
+        if name.strip() == "" or id.strip() == "":
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' or 'name' parameter"}
             self.send_response(400)
             self.send_header("Content-type", "application/json")
@@ -189,7 +188,7 @@ class UserHandler(BaseHTTPRequestHandler):
         data = urllib.parse.parse_qs(post_data.decode("utf-8"))
         id = data.get("id", [None])[0]
 
-        if id is None:
+        if id.strip() == "":
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' parameter"}
             self.send_response(400)
             self.send_header("Content-type", "application/json")
