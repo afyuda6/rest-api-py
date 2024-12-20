@@ -1,8 +1,10 @@
+import os
 from http.server import HTTPServer
 from database.sqlite import init_db
 from handlers.user import User
 
-def run(serverClass=HTTPServer, handlerClass=User, port=6003):
+def run(serverClass=HTTPServer, handlerClass=User):
+    port = int(os.environ.get('PORT', 8080))
     init_db()
     serverAddress = ('', port)
     httpd = serverClass(serverAddress, handlerClass)
