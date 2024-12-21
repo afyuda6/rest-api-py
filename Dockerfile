@@ -1,9 +1,9 @@
-FROM ubuntu:20.04
+FROM python:3.10-slim
 
 ENV LANG=C.UTF-8
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip sqlite3 curl && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y sqlite3 curl && \
     apt-get clean
 
 WORKDIR /rest-api-py
