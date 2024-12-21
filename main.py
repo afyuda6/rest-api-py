@@ -4,7 +4,7 @@ from database.sqlite import init_db
 from handlers.user import User
 
 def run(serverClass=HTTPServer, handlerClass=User):
-    port = int(os.environ.get('PORT', 8080))
+    port = int(os.environ.get('PORT', 6003))
     init_db()
     serverAddress = ('', port)
     httpd = serverClass(serverAddress, handlerClass)
