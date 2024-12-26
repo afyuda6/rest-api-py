@@ -24,7 +24,9 @@ class User(BaseHTTPRequestHandler):
         self.user_handler("HEAD")
 
     def do_OPTIONS(self):
-        self.user_handler("OPTIONS")
+        self.send_response(200)
+        self.add_cors_headers()
+        self.end_headers()
 
     def handle_read_user(self):
         db_path = os.path.join(os.path.dirname(__file__), '../rest_api_py.db')
@@ -36,6 +38,7 @@ class User(BaseHTTPRequestHandler):
         response_data = [{"id": user[0], "name": user[1]} for user in users]
         response = {"status": "OK", "code": 200, "data": response_data}
         self.send_response(200)
+        self.add_cors_headers()
         self.send_header("Content-type", "application/json")
         self.end_headers()
         self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -46,6 +49,7 @@ class User(BaseHTTPRequestHandler):
         if content_length == 0:
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'name' parameter"}
             self.send_response(400)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -56,6 +60,7 @@ class User(BaseHTTPRequestHandler):
         if name is None or name.strip() == "":
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'name' parameter"}
             self.send_response(400)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -68,6 +73,7 @@ class User(BaseHTTPRequestHandler):
         conn.close()
         response = {"status": "Created", "code": 201}
         self.send_response(201)
+        self.add_cors_headers()
         self.send_header("Content-type", "application/json")
         self.end_headers()
         self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -78,6 +84,7 @@ class User(BaseHTTPRequestHandler):
         if content_length == 0:
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' or 'name' parameter"}
             self.send_response(400)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -89,6 +96,7 @@ class User(BaseHTTPRequestHandler):
         if name is None or id is None:
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' or 'name' parameter"}
             self.send_response(400)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -96,6 +104,7 @@ class User(BaseHTTPRequestHandler):
         if name.strip() == "" or id.strip() == "":
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' or 'name' parameter"}
             self.send_response(400)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -108,6 +117,7 @@ class User(BaseHTTPRequestHandler):
         conn.close()
         response = {"status": "OK", "code": 200}
         self.send_response(200)
+        self.add_cors_headers()
         self.send_header("Content-type", "application/json")
         self.end_headers()
         self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -118,6 +128,7 @@ class User(BaseHTTPRequestHandler):
         if content_length == 0:
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' parameter"}
             self.send_response(400)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -128,6 +139,7 @@ class User(BaseHTTPRequestHandler):
         if id is None or id.strip() == "":
             response = {"status": "Bad Request", "code": 400, "errors": "Missing 'id' parameter"}
             self.send_response(400)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -140,14 +152,21 @@ class User(BaseHTTPRequestHandler):
         conn.close()
         response = {"status": "OK", "code": 200}
         self.send_response(200)
+        self.add_cors_headers()
         self.send_header("Content-type", "application/json")
         self.end_headers()
         self.wfile.write(json.dumps(response).encode("utf-8"))
+
+    def add_cors_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
 
     def user_handler(self, method):
         if self.path != "/users" and self.path != "/users/":
             response = {"status": "Not Found", "code": 404}
             self.send_response(404)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
@@ -163,6 +182,7 @@ class User(BaseHTTPRequestHandler):
         else:
             response = {"status": "Method Not Allowed", "code": 405}
             self.send_response(405)
+            self.add_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(response).encode("utf-8"))
