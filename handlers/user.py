@@ -4,6 +4,7 @@ import sqlite3
 import urllib.parse
 from http.server import BaseHTTPRequestHandler
 
+
 class User(BaseHTTPRequestHandler):
     def do_GET(self):
         self.user_handler("GET")
