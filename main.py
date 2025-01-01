@@ -5,7 +5,7 @@ from handlers.user import User
 
 
 def run(serverClass=HTTPServer, handlerClass=User):
-    port = int(os.environ.get('PORT', 6003))
+    port = int(os.environ.get('PORT', 6006))
     init_db()
     serverAddress = ('', port)
     httpd = serverClass(serverAddress, handlerClass)
