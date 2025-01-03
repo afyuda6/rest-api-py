@@ -4,7 +4,7 @@ from database.sqlite import init_db
 from handlers.user import User
 
 
-def run(serverClass=HTTPServer, handlerClass=User):
+def main(serverClass=HTTPServer, handlerClass=User):
     port = int(os.environ.get('PORT', 6006))
     init_db()
     serverAddress = ('', port)
@@ -13,4 +13,4 @@ def run(serverClass=HTTPServer, handlerClass=User):
 
 
 if __name__ == "__main__":
-    run()
+    main()
