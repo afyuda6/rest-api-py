@@ -1,10 +1,9 @@
 FROM python:3.10-slim
 
-ENV LANG=C.UTF-8
-
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y sqlite3 curl && \
-    apt-get clean
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    sqlite3 \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /rest-api-py
 
