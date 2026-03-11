@@ -1,0 +1,4 @@
+**/__pycache__/
+.idea
+rest_api_py.db
+*.sh
